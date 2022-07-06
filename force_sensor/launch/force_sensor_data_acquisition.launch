@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="force_sensor" type="M8128_data_acquire_node" name="M8128_data_acquire" output="screen">
+        <param name="usart_port_name"    type="string" value="/dev/ttyUSB0"/>  
+        <param name="serial_baud_rate"   type="int"    value="115200"/>
+    </node>
+</launch>
