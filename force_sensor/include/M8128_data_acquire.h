@@ -112,6 +112,7 @@ class turn_on_sensor
     private:
 		/* Read/Write data from ttyUSB 串口和控制函数声明 */
         std::string start_cmd = "AT+GSD\r\n";
+        std::string sample_freq = "AT+SMPF=100\r\n";
         std::string end_cmd = "AT+GOD\r\n";
         bool Get_Sensor_Data();
         unsigned char Check_Sum();//校验函数

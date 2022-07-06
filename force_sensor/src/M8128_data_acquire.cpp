@@ -22,15 +22,15 @@ void turn_on_sensor::sensor_run()
   while(ros::ok())
   {
     _Now = ros::Time::now();
-    Sampling_Time = (_Now - _Last_Time).toSec();
     //Sampling_time是采样时间，虽然下位机发送的数据频率是固定的，这里以ROS系统的时间更加可靠精确。
     if (true == Get_Sensor_Data())  //从串口读取下位机法过来的全部数据
     {
+      Sampling_Time = (_Now - _Last_Time).toSec();
       M8128_data_publisher_fun(); // 发布M8128采集卡解析数据topic
+      _Last_Time = _Now;//记录时间
     }
-    _Last_Time = _Now;//记录时间
     ros::spinOnce();//循环等待回调函数
-    }
+  }
 }
 
 /**************************************
@@ -237,6 +237,7 @@ turn_on_sensor::turn_on_sensor():Sampling_Time(0)
     ROS_INFO_STREAM("Force sensor serial port opened");//开启成功
 
     // 发送指令"AT+GSD\r\n"开启数据传输过程 
+    M8128_Serial.write(sample_freq); // 发送采样率设置（可在.h文件修改）
     M8128_Serial.write(start_cmd); //向串口发数据
 
   }else{
